@@ -1,0 +1,152 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* CSS START */
+:root {
+    --background: #f6edff;
+    --button: white;
+    --buttonhover: #e0b6ff;
+    --card: rgba(208, 118, 255, 1);
+    --stats: rgba(138, 32, 213, 1);
+    --navbar: #e2d3fa;
+    --text: black;
+    --textHeading: white;
+    --fontHeading: "Roboto";
+    --fontChild: "Poppins";
+}
+body{
+    background-color: var(--background);
+}
+
+nav{
+    width: 100vw;
+    font-family: var(--fontHeading);
+    color: var(--textHeading);
+    background-image: url(image/night-background-image.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 70vh;
+    border-radius: 0px 0px 32px 32px;
+}
+
+nav .nav-container{
+    display: flex;
+    flex-direction: column;
+    padding-left: 23px;
+    padding-right: 23px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    gap: 50px;
+}
+
+nav .nav-container .search{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+nav .nav-container .search button{
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+nav .nav-container .search button img{
+    width: 18px;
+    height: 18px;
+}
+nav .nav-container form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: space-between;
+}
+nav .nav-container form input{
+    border-radius: 6px;
+    background: none;
+    border: 2px solid white;
+    width: 80%;
+    height: 22px;
+    padding-left: 6px;
+    color: white;
+}
+nav .nav-container .search h1{
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 127.273% */
+}
+
+nav .details{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+nav .details h2{
+    font-size: 86px;
+}
+nav .details p{
+    color: #FFF;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px; /* 127.273% */
+}
+nav .details .details-child{
+    display: flex;
+    flex-direction: column;
+}
+nav .details .forecast img{
+    width: 86px;
+    height: 90px'
+}
+nav .details .forecast{
+    align-items: flex-end;
+}
+
