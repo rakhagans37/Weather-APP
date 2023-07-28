@@ -49,7 +49,7 @@ table {
 
 /* CSS START */
 :root {
-    --background: #f6edff;
+    --background: #F6EDFF;
     --button: white;
     --buttonhover: #e0b6ff;
     --card: rgba(208, 118, 255, 1);
@@ -71,7 +71,8 @@ nav{
     background-image: url(image/night-background-image.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    height: 70vh;
+    background-position: center;
+    height: 400px;
     border-radius: 0px 0px 32px 32px;
 }
 
@@ -113,7 +114,7 @@ nav .nav-container form input{
     background: none;
     border: 2px solid white;
     width: 80%;
-    height: 22px;
+    height: 32px;
     padding-left: 6px;
     color: white;
 }
@@ -127,9 +128,10 @@ nav .nav-container .search h1{
 nav .details{
     display: grid;
     grid-template-columns: 50% 50%;
+    grid-template-rows: max-content;
 }
 nav .details h2{
-    font-size: 86px;
+    font-size: 110px;
 }
 nav .details p{
     color: #FFF;
@@ -143,10 +145,29 @@ nav .details .details-child{
     flex-direction: column;
 }
 nav .details .forecast img{
-    width: 86px;
-    height: 90px'
+    width: 150px;
 }
-nav .details .forecast{
+nav .details .forecast {
     align-items: flex-end;
+}
+nav .details .forecast p {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+nav .additional-info{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    color: #FFF;
+    align-items: end;
+}
+nav .additional-info .sun{
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    text-align: right;
+    letter-spacing: 0.4px;
+    line-height: 20px;
 }
 
