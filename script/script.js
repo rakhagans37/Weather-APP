@@ -6,7 +6,7 @@ function getLocation(latitude, longitude) {
     param.append("appid", "5e12c37e2ff0623c3469032dd5ba1d6b");
 
     const request = new Request(
-        `http://api.openweathermap.org/geo/1.0/reverse?${[param]}`
+        `https://api.openweathermap.org/geo/1.0/reverse?${[param]}`
     );
 
     try {
