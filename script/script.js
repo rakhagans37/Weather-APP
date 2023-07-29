@@ -74,6 +74,35 @@ function uvAPI(latitude, longitude) {
     }
 }
 
+function hourlyForecastAPI(latitude, longitude, city) {
+    const param = new URLSearchParams();
+
+    //Untuk mengambil parameter yang tepat untuk digunakan dalam URL
+    if (latitude === null || longitude === null) {
+        param.append("q", city);
+    } else {
+        param.append("lat", latitude);
+        param.append("lon", longitude);
+    }
+
+    //Parameter wajib dalam URL
+    param.append("appid", "5e12c37e2ff0623c3469032dd5ba1d6b");
+    param.append("units", "metric");
+    param.append("lang", "id");
+    param.append("cnt", 8);
+
+    //Membuat request ke server
+    const request = new Request(
+        `https://pro.openweathermap.org/data/2.5/forecast/hourly?${param}`
+    );
+    try {
+        const response = fetch(request);
+        return response.then((response) => response.json());
+    } catch (error) {
+        console.log(`Error Occured = ${error}`);
+    }
+}
+
 function makeTime() {
     const time = new Date();
     document.getElementById("date-time").textContent = `${time.toLocaleString(
@@ -92,6 +121,10 @@ async function getLoc(latitude, longitude) {
 }
 async function getUV(latitude, longitude) {
     const response = await uvAPI(latitude, longitude);
+    return response;
+}
+async function getHourlyForecast(latitude, longitude) {
+    const response = await hourlyForecastAPI(latitude, longitude, city);
     return response;
 }
 
@@ -138,6 +171,37 @@ function printData(response) {
     // } catch (error) {
     //     console.log(`Error : ${error}`);
     // }
+
+    //Print hourly
+    getHourlyForecast(response.coord.lat, response.coord.lon).then(
+        (responseHourly) => {
+            console.log();
+            for (let i = 0; i < 8; i++) {
+                const target = document.getElementById(`forecast${i + 1}`);
+                console.log(target);
+                const date = new Date(
+                    Number(responseHourly.list[i].dt + "000")
+                );
+
+                target.querySelector("h3").textContent = `${date.toLocaleString(
+                    "en-US",
+                    {
+                        hour: "numeric",
+                        hour12: true,
+                    }
+                )}`;
+                target
+                    .querySelector("img")
+                    .setAttribute(
+                        "src",
+                        `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
+                    );
+                target.querySelector("span").textContent = `${Math.round(
+                    responseHourly.list[i].main.temp
+                )}`;
+            }
+        }
+    );
 }
 function printLoc(response) {
     document.getElementById("location").textContent = `${

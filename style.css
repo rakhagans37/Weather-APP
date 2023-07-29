@@ -267,6 +267,61 @@ main .details-circum .card .circum-value p{
     line-height: 24px; /* 150% */
     letter-spacing: 0.15px;
 }
+
+main .hourly{
+    background-color: var(--card);
+    border-radius: 18px;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+main .hourly .title{
+    display: flex;
+    flex-direction: row;
+    padding-left: 12px;
+    padding-top: 12px;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--fontHeading);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 171.429% */
+    letter-spacing: 0.15px;
+}
+main .hourly .title img{
+    width: 36px;
+    height: 36px;
+}
+main .hourly .forecast-hourly{
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    padding-left: 12px;
+}
+main .hourly .forecast-hourly .forecast-card{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    width: 100%;
+}
+main .hourly .forecast-hourly .forecast-card h3{
+    white-space: nowrap;
+    font-family: var(--fontHeading);
+    font-size: 14px;
+}
+main .hourly .forecast-hourly .forecast-card p{
+    font-family: var(--fontChild);
+    font-size: 18px;
+}
+main .hourly .forecast-hourly .forecast-card img{
+    width: 32px;
+    height: 32px;
+}
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 400px) {
     nav .details h2{
