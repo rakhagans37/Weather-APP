@@ -1,3 +1,5 @@
+// Function, Async, and API call
+
 function locAPI(latitude, longitude) {
     const param = new URLSearchParams();
     param.append("lat", latitude);
@@ -144,7 +146,7 @@ function printLoc(response) {
 }
 
 function getAllData() {
-    navigator.geolocation.watchPosition((position) => {
+    navigator.geolocation.getCurrentPosition((position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
@@ -157,9 +159,7 @@ function getAllData() {
     });
 }
 
-setInterval(makeTime, 1000);
-getAllData();
-
+//Javascript procedural
 document.getElementById("city").addEventListener("submit", function (event) {
     event.preventDefault();
     const city = document.getElementById("city-input").value;
@@ -176,3 +176,6 @@ document.getElementById("city").addEventListener("submit", function (event) {
         // });
     });
 });
+
+setInterval(makeTime, 1000);
+getAllData();
