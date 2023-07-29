@@ -128,7 +128,7 @@ function printData(response) {
     //Print current rain
     const h1 = "1h";
     document.getElementById("rain-volume").textContent =
-        response?.rain?.["1h"] ?? 0 + " mm";
+        (response?.rain?.["1h"] ?? 0) + " mm";
 
     // try {
     //     getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
@@ -175,6 +175,7 @@ document.getElementById("city").addEventListener("submit", function (event) {
         //         responseUV.result.uv;
         // });
     });
+    document.getElementById("city-input").value = "";
 });
 
 setInterval(makeTime, 1000);
