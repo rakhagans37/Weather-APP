@@ -156,12 +156,43 @@ function printData(response) {
     );
 
     //Print current simbol forecast
-    document
-        .getElementById("forecast-icon")
-        .setAttribute(
-            "src",
-            `image/forecast icon/${response.weather[0].main}.png`
-        );
+    const locationTime = new Date(
+        new Date().getTime() + response.timezone * 1000
+    ).toISOString(); //Algorithm to convert timezone in second to UTC
+
+    if (locationTime.substring(11, 13) > 18) {
+        if (response.weather[0].id > 800) {
+            document
+                .getElementById("forecast-icon")
+                .setAttribute(
+                    "src",
+                    `image/forecast icon/${response.weather[0].id}-night.png`
+                );
+        } else {
+            document
+                .getElementById("forecast-icon")
+                .setAttribute(
+                    "src",
+                    `image/forecast icon/${response.weather[0].main}-night.png`
+                );
+        }
+    } else {
+        if (response.weather[0].id > 800) {
+            document
+                .getElementById("forecast-icon")
+                .setAttribute(
+                    "src",
+                    `image/forecast icon/${response.weather[0].id}.png`
+                );
+        } else {
+            document
+                .getElementById("forecast-icon")
+                .setAttribute(
+                    "src",
+                    `image/forecast icon/${response.weather[0].main}.png`
+                );
+        }
+    }
 
     //Print current deskripsi forecast ex: clouds, sunny, etc
     document.getElementById("forecast-desc").textContent =
@@ -197,7 +228,7 @@ function printData(response) {
             for (let i = 0; i < 12; i++) {
                 const target = document.getElementById(`forecast${i + 1}`);
                 const date = new Date(
-                    Number(responseHourly.list[i].dt + "000")
+                    Number(responseHourly.list[i].dt + "000") - 7000 * 3600
                 );
 
                 target.querySelector("h3").textContent = `${date.toLocaleString(
@@ -207,12 +238,24 @@ function printData(response) {
                         hour12: true,
                     }
                 )}`;
-                target
-                    .querySelector("img")
-                    .setAttribute(
-                        "src",
-                        `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
-                    );
+
+                //If clouds
+                if (responseHourly.list[i].weather[0].id > 800) {
+                    target
+                        .querySelector("img")
+                        .setAttribute(
+                            "src",
+                            `image/forecast icon/${responseHourly.list[i].weather[0].id}.png`
+                        );
+                } else {
+                    target
+                        .querySelector("img")
+                        .setAttribute(
+                            "src",
+                            `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
+                        );
+                }
+
                 target.querySelector("span").textContent = `${Math.round(
                     responseHourly.list[i].main.temp
                 )}`;
@@ -223,7 +266,7 @@ function printData(response) {
     try {
         printChart(response.coord.lat, response.coord.lon);
     } catch (error) {
-        document.getElementById("chart").textContent = "NULL";
+        document.getElementById("chart").textContent = "No Data";
     }
 }
 function printLoc(response) {
