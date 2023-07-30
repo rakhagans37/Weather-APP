@@ -1,5 +1,5 @@
-import { dayForecast, getSevenDaysDetails, printChart } from "./chart.js";
 // Function, Async, and API call
+import { getSevenDaysDetails, printChart, dayForecast } from "./chart.js";
 function locAPI(latitude, longitude) {
     const param = new URLSearchParams();
     param.append("lat", latitude);
@@ -169,9 +169,8 @@ function printData(response) {
 
     try {
         getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
-            document.getElementById("uv-index").textContent = Math.round(
-                responseUV.result.uv
-            );
+            document.getElementById("uv-index").textContent =
+                Math.round(responseUV.result.uv) ?? "NO DATA";
         });
     } catch (error) {
         document.getElementById("uv-index").textContent = "No Data";
@@ -212,7 +211,11 @@ function printData(response) {
     }
 
     //Print Chart
-    printChart(response.coord.lat, response.coord.lon);
+    try {
+        printChart(response.coord.lat, response.coord.lon);
+    } catch (error) {
+        document.getElementById("chart").textContent = "NULL";
+    }
 }
 function printLoc(response) {
     document.getElementById("location").textContent = `${
@@ -245,10 +248,6 @@ document.getElementById("city").addEventListener("submit", function (event) {
         getLoc(response.coord.lat, response.coord.lon).then((response) => {
             printLoc(response);
         });
-        // getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
-        //     document.getElementById("uv-index").textContent =
-        //         responseUV.result.uv;
-        // });
     });
     document.getElementById("city-input").value = "";
 });

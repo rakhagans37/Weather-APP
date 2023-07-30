@@ -50,9 +50,9 @@ export async function getSevenDaysDetails(latitude, longitude) {
     }
     return value;
 }
-
 export function printChart(latitude, longitude) {
     getSevenDaysDetails(latitude, longitude).then((response) => {
+        document.getElementById("timeline-chart").textContent = "";
         const data = [];
         data.push(response);
 
