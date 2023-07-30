@@ -1,5 +1,5 @@
+import { dayForecast, getSevenDaysDetails, printChart } from "./chart.js";
 // Function, Async, and API call
-
 function locAPI(latitude, longitude) {
     const param = new URLSearchParams();
     param.append("lat", latitude);
@@ -121,7 +121,11 @@ async function getLoc(latitude, longitude) {
 }
 async function getUV(latitude, longitude) {
     const response = await uvAPI(latitude, longitude);
-    return response;
+    try {
+        return response;
+    } catch (error) {
+        return error;
+    }
 }
 async function getHourlyForecast(latitude, longitude) {
     const response = await hourlyForecastAPI(latitude, longitude, city);
@@ -163,45 +167,52 @@ function printData(response) {
     document.getElementById("rain-volume").textContent =
         (response?.rain?.["1h"] ?? 0) + " mm";
 
-    // try {
-    //     getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
-    //         document.getElementById("uv-index").textContent =
-    //             responseUV.result.uv;
-    //     });
-    // } catch (error) {
-    //     console.log(`Error : ${error}`);
-    // }
+    try {
+        getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
+            document.getElementById("uv-index").textContent = Math.round(
+                responseUV.result.uv
+            );
+        });
+    } catch (error) {
+        document.getElementById("uv-index").textContent = "No Data";
+    }
 
     //Print hourly
-    getHourlyForecast(response.coord.lat, response.coord.lon).then(
-        (responseHourly) => {
-            console.log();
-            for (let i = 0; i < 8; i++) {
-                const target = document.getElementById(`forecast${i + 1}`);
-                console.log(target);
-                const date = new Date(
-                    Number(responseHourly.list[i].dt + "000")
-                );
+    try {
+        getHourlyForecast(response.coord.lat, response.coord.lon).then(
+            (responseHourly) => {
+                console.log();
+                for (let i = 0; i < 8; i++) {
+                    const target = document.getElementById(`forecast${i + 1}`);
+                    console.log(target);
+                    const date = new Date(
+                        Number(responseHourly.list[i].dt + "000")
+                    );
 
-                target.querySelector("h3").textContent = `${date.toLocaleString(
-                    "en-US",
-                    {
+                    target.querySelector(
+                        "h3"
+                    ).textContent = `${date.toLocaleString("en-US", {
                         hour: "numeric",
                         hour12: true,
-                    }
-                )}`;
-                target
-                    .querySelector("img")
-                    .setAttribute(
-                        "src",
-                        `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
-                    );
-                target.querySelector("span").textContent = `${Math.round(
-                    responseHourly.list[i].main.temp
-                )}`;
+                    })}`;
+                    target
+                        .querySelector("img")
+                        .setAttribute(
+                            "src",
+                            `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
+                        );
+                    target.querySelector("span").textContent = `${Math.round(
+                        responseHourly.list[i].main.temp
+                    )}`;
+                }
             }
-        }
-    );
+        );
+    } catch (error) {
+        console.log(`Error Occured : ${error}`);
+    }
+
+    //Print Chart
+    printChart(response.coord.lat, response.coord.lon);
 }
 function printLoc(response) {
     document.getElementById("location").textContent = `${
