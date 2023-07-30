@@ -16,7 +16,7 @@ function locAPI(latitude, longitude) {
         const response = fetch(request);
         return response.then((response) => response.json());
     } catch (error) {
-        console.log(`Error Occured = ${error}`);
+        return error;
     }
 }
 
@@ -44,7 +44,7 @@ function forecastAPI(latitude, longitude, city) {
         const response = fetch(request);
         return response.then((response) => response.json());
     } catch (error) {
-        console.log(`Error Occured = ${error}`);
+        return error;
     }
 }
 
@@ -70,7 +70,7 @@ function uvAPI(latitude, longitude) {
         );
         return response.then((response) => response.json());
     } catch (error) {
-        console.log(`ERROR : ${error}`);
+        return error;
     }
 }
 
@@ -99,7 +99,7 @@ function hourlyForecastAPI(latitude, longitude, city) {
         const response = fetch(request);
         return response.then((response) => response.json());
     } catch (error) {
-        console.log(`Error Occured = ${error}`);
+        return error;
     }
 }
 
@@ -112,24 +112,36 @@ function makeTime() {
 }
 
 async function getTemp(latitude, longitude, city) {
-    const response = await forecastAPI(latitude, longitude, city);
-    return response;
+    try {
+        const response = await forecastAPI(latitude, longitude, city);
+        return response;
+    } catch (error) {
+        return error;
+    }
 }
 async function getLoc(latitude, longitude) {
-    const response = await locAPI(latitude, longitude);
-    return response;
+    try {
+        const response = await locAPI(latitude, longitude);
+        return response;
+    } catch (error) {
+        return error;
+    }
 }
 async function getUV(latitude, longitude) {
-    const response = await uvAPI(latitude, longitude);
     try {
+        const response = await uvAPI(latitude, longitude);
         return response;
     } catch (error) {
         return error;
     }
 }
 async function getHourlyForecast(latitude, longitude) {
-    const response = await hourlyForecastAPI(latitude, longitude, city);
-    return response;
+    try {
+        const response = await hourlyForecastAPI(latitude, longitude, city);
+        return response;
+    } catch (error) {
+        return error;
+    }
 }
 
 function printData(response) {
@@ -163,53 +175,50 @@ function printData(response) {
         response.main.pressure + " hPa";
 
     //Print current rain
-    const h1 = "1h";
     document.getElementById("rain-volume").textContent =
-        (response?.rain?.["1h"] ?? 0) + " mm";
+        (response?.rain?.["1h"] ?? response?.rain?.["3h"] ?? 0) + " mm";
 
-    try {
-        getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
-            document.getElementById("uv-index").textContent =
-                Math.round(responseUV.result.uv) ?? "NO DATA";
-        });
-    } catch (error) {
-        document.getElementById("uv-index").textContent = "No Data";
-    }
+    getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
+        try {
+            document.getElementById("uv-index").textContent = Math.round(
+                responseUV.result.uv
+            );
+        } catch (error) {
+            document.getElementById("uv-index").textContent = "NO DATA";
+            console.log(`Error Occured : ${error}`);
+        }
+    });
 
     //Print hourly
-    try {
-        getHourlyForecast(response.coord.lat, response.coord.lon).then(
-            (responseHourly) => {
-                console.log();
-                for (let i = 0; i < 8; i++) {
-                    const target = document.getElementById(`forecast${i + 1}`);
-                    console.log(target);
-                    const date = new Date(
-                        Number(responseHourly.list[i].dt + "000")
-                    );
 
-                    target.querySelector(
-                        "h3"
-                    ).textContent = `${date.toLocaleString("en-US", {
+    getHourlyForecast(response.coord.lat, response.coord.lon).then(
+        (responseHourly) => {
+            console.log();
+            for (let i = 0; i < 8; i++) {
+                const target = document.getElementById(`forecast${i + 1}`);
+                const date = new Date(
+                    Number(responseHourly.list[i].dt + "000")
+                );
+
+                target.querySelector("h3").textContent = `${date.toLocaleString(
+                    "en-US",
+                    {
                         hour: "numeric",
                         hour12: true,
-                    })}`;
-                    target
-                        .querySelector("img")
-                        .setAttribute(
-                            "src",
-                            `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
-                        );
-                    target.querySelector("span").textContent = `${Math.round(
-                        responseHourly.list[i].main.temp
-                    )}`;
-                }
+                    }
+                )}`;
+                target
+                    .querySelector("img")
+                    .setAttribute(
+                        "src",
+                        `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
+                    );
+                target.querySelector("span").textContent = `${Math.round(
+                    responseHourly.list[i].main.temp
+                )}`;
             }
-        );
-    } catch (error) {
-        console.log(`Error Occured : ${error}`);
-    }
-
+        }
+    );
     //Print Chart
     try {
         printChart(response.coord.lat, response.coord.lon);
@@ -244,10 +253,18 @@ document.getElementById("city").addEventListener("submit", function (event) {
 
     //Memanggil async function untuk get data
     getTemp(null, null, city).then((response) => {
-        printData(response);
-        getLoc(response.coord.lat, response.coord.lon).then((response) => {
-            printLoc(response);
-        });
+        try {
+            printData(response);
+        } catch (error) {
+            alert("Kota Tidak Ditemukan");
+        }
+        try {
+            getLoc(response.coord.lat, response.coord.lon).then((response) => {
+                printLoc(response);
+            });
+        } catch (error) {
+            console.log(`Kota Tidak Ditemukan, Error code: ${error}`);
+        }
     });
     document.getElementById("city-input").value = "";
 });

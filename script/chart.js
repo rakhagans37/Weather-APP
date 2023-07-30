@@ -48,9 +48,14 @@ export async function getSevenDaysDetails(latitude, longitude) {
             ].substring(0, 3)
         );
     }
+
+    //Print temperature day and night
+    document.getElementById("day").textContent = response.list[0].temp.day;
+    document.getElementById("night").textContent = response.list[0].temp.night;
     return value;
 }
 export function printChart(latitude, longitude) {
+    //Print day temp
     getSevenDaysDetails(latitude, longitude).then((response) => {
         document.getElementById("timeline-chart").textContent = "";
         const data = [];
@@ -134,7 +139,7 @@ export function printChart(latitude, longitude) {
             },
 
             xaxis: {
-                type: "text",
+                type: "category",
                 categories: data[0][3],
                 axisBorder: {
                     show: true,
@@ -145,11 +150,77 @@ export function printChart(latitude, longitude) {
                 lines: {
                     show: true,
                 },
+                labels: {
+                    show: true,
+                    rotate: -45,
+                    rotateAlways: false,
+                    hideOverlappingLabels: true,
+                    showDuplicates: false,
+                    trim: false,
+                    minHeight: undefined,
+                    maxHeight: 120,
+                    style: {
+                        colors: [],
+                        fontSize: "15px",
+                        fontFamily: "Poppins",
+                        fontWeight: 500,
+                        cssClass: "apexcharts-xaxis-label",
+                    },
+                },
+                axisBorder: {
+                    show: true,
+                    color: "#78909C",
+                    height: 1,
+                    width: "100%",
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+                axisTicks: {
+                    show: true,
+                    borderType: "solid",
+                    color: "#78909C",
+                    height: 2,
+                    offsetX: 0,
+                    offsetY: 0,
+                },
+                crosshairs: {
+                    show: true,
+                    width: 1,
+                    position: "back",
+                    opacity: 1,
+                    stroke: {
+                        color: "#21005D",
+                        width: 2,
+                        dashArray: 5,
+                    },
+                    fill: {
+                        type: "solid",
+                        color: "#21005D",
+                    },
+                    dropShadow: {
+                        enabled: false,
+                        top: 0,
+                        left: 0,
+                        blur: 1,
+                        opacity: 0.4,
+                    },
+                },
             },
             yaxis: {
+                tickAmount: 3,
                 labels: {
+                    show: true,
+                    align: "right",
+                    style: {
+                        colors: [],
+                        fontSize: "14px",
+                        fontFamily: "Poppins",
+                        fontWeight: 400,
+                        cssClass: "apexcharts-yaxis-label",
+                    },
                     offsetX: 0,
                     offsetY: 4,
+                    rotate: 0,
                 },
             },
             grid: {
