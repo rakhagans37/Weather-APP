@@ -40,26 +40,26 @@ export async function getSevenDaysDetails(latitude, longitude) {
 
     for (let i = 0; i < 7; i++) {
         value[0].push(response.list[i].temp.day);
-        value[1].push(response.list[i].temp.min);
-        value[2].push(response.list[i].temp.max);
-        value[3].push(
+        value[1].push(response.list[i].temp.night);
+        value[2].push(
             weekday[
                 new Date(Number(response.list[i].dt + "000")).getDay()
             ].substring(0, 3)
         );
     }
 
-    //Print temperature day and night
-    document.getElementById("day").textContent = response.list[0].temp.day;
-    document.getElementById("night").textContent = response.list[0].temp.night;
     return value;
 }
 export function printChart(latitude, longitude) {
     //Print day temp
     getSevenDaysDetails(latitude, longitude).then((response) => {
-        document.getElementById("timeline-chart").textContent = "";
+        document.getElementById("timeline-chart").innerHTML = "";
         const data = [];
         data.push(response);
+
+        //Print current days temperature day and night
+        document.getElementById("day").textContent = data[0][0][0];
+        document.getElementById("night").textContent = data[0][1][0];
 
         console.log(data);
         let options = {
@@ -104,25 +104,21 @@ export function printChart(latitude, longitude) {
                     opacity: 0.06,
                 },
             },
-            colors: ["rgba(224, 0, 0, 1)", "#000", "rgba(0, 103, 223, 1)"],
+            colors: ["rgba(203, 151, 0, 1)", "#1D5D9B"],
             stroke: {
                 curve: "smooth",
-                width: 4,
+                width: 3.5,
             },
             dataLabels: {
                 enabled: false,
             },
             series: [
                 {
-                    name: "Max",
-                    data: data[0][2],
-                },
-                {
-                    name: "Avg",
+                    name: "Day",
                     data: data[0][0],
                 },
                 {
-                    name: "Min",
+                    name: "Night",
                     data: data[0][1],
                 },
             ],
@@ -132,7 +128,7 @@ export function printChart(latitude, longitude) {
                 strokeWidth: 2,
                 strokeOpacity: 1,
                 fillOpacity: 1,
-                colors: "#21005D",
+                colors: ["rgba(203, 151, 0, 1)", "#1D5D9B"],
                 hover: {
                     size: 6,
                 },
@@ -140,7 +136,7 @@ export function printChart(latitude, longitude) {
 
             xaxis: {
                 type: "category",
-                categories: data[0][3],
+                categories: data[0][2],
                 axisBorder: {
                     show: true,
                 },
@@ -189,13 +185,13 @@ export function printChart(latitude, longitude) {
                     position: "back",
                     opacity: 1,
                     stroke: {
-                        color: "#21005D",
+                        color: "#000",
                         width: 2,
                         dashArray: 5,
                     },
                     fill: {
                         type: "solid",
-                        color: "#21005D",
+                        color: "#000",
                     },
                     dropShadow: {
                         enabled: false,
@@ -233,12 +229,9 @@ export function printChart(latitude, longitude) {
             },
 
             fill: {
-                type: "gradient",
-                colors: [
-                    "rgba(87, 0, 0, 1)",
-                    "rgba(18, 0, 69, 0.8)",
-                    "rgba(0, 14, 87, 1)",
-                ],
+                type: "solid",
+                opacity: 0.3,
+                colors: ["rgba(252, 211, 92, 0.5)", "rgba(117, 194, 246, 0.6)"],
             },
         };
 

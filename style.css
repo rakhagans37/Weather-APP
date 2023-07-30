@@ -310,13 +310,14 @@ main .hourly .forecast-hourly{
     flex-direction: row;
     gap: 32px;
     padding-left: 12px;
+    padding-right: 12px;
 }
 main .hourly .forecast-hourly .forecast-card{
     display: flex;
     flex-direction: column;
     gap: 4px;
     align-items: center;
-    width: 100%;
+    width: max-content;
 }
 main .hourly .forecast-hourly .forecast-card h3{
     white-space: nowrap;

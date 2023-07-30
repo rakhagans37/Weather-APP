@@ -89,7 +89,7 @@ function hourlyForecastAPI(latitude, longitude, city) {
     param.append("appid", "5e12c37e2ff0623c3469032dd5ba1d6b");
     param.append("units", "metric");
     param.append("lang", "id");
-    param.append("cnt", 8);
+    param.append("cnt", 12);
 
     //Membuat request ke server
     const request = new Request(
@@ -194,7 +194,7 @@ function printData(response) {
     getHourlyForecast(response.coord.lat, response.coord.lon).then(
         (responseHourly) => {
             console.log();
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 12; i++) {
                 const target = document.getElementById(`forecast${i + 1}`);
                 const date = new Date(
                     Number(responseHourly.list[i].dt + "000")
