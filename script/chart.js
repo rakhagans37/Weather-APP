@@ -50,10 +50,10 @@ export async function getSevenDaysDetails(latitude, longitude) {
 
     return value;
 }
+
 export function printChart(latitude, longitude) {
     //Print day temp
     getSevenDaysDetails(latitude, longitude).then((response) => {
-        document.getElementById("timeline-chart").innerHTML = "";
         const data = [];
         data.push(response);
 
@@ -61,185 +61,186 @@ export function printChart(latitude, longitude) {
         document.getElementById("day").textContent = data[0][0][0];
         document.getElementById("night").textContent = data[0][1][0];
 
-        console.log(data);
-        let options = {
-            tooltip: {
-                x: {
-                    show: false,
-                },
-                style: {
-                    fontSize: 14,
-                    fontFamily: "Poppins",
-                },
-                onDatasetHover: {
-                    highlightDataSeries: true,
-                },
+        chart.updateSeries([
+            {
+                name: "Day",
+                data: data[0][0],
             },
-            animations: {
-                enabled: true,
-                easing: "linear",
-                speed: 800,
-                animateGradually: {
-                    enabled: true,
-                    delay: 350,
-                },
-                dynamicAnimation: {
-                    enabled: true,
-                    speed: 350,
-                },
+            {
+                name: "Night",
+                data: data[0][1],
             },
-            chart: {
-                toolbar: {
-                    show: false,
-                },
-                type: "area",
-                height: 180,
-                foreColor: "#000",
-                dropShadow: {
-                    enabled: true,
-                    enabledSeries: [0],
-                    top: -2,
-                    left: 2,
-                    blur: 5,
-                    opacity: 0.06,
-                },
-            },
-            colors: ["rgba(203, 151, 0, 1)", "#1D5D9B"],
-            stroke: {
-                curve: "smooth",
-                width: 3.5,
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            series: [
-                {
-                    name: "Day",
-                    data: data[0][0],
-                },
-                {
-                    name: "Night",
-                    data: data[0][1],
-                },
-            ],
-            markers: {
-                size: 0,
-                strokeColor: "#FFF",
-                strokeWidth: 2,
-                strokeOpacity: 1,
-                fillOpacity: 1,
-                colors: ["rgba(203, 151, 0, 1)", "#1D5D9B"],
-                hover: {
-                    size: 6,
-                },
-            },
+        ]);
 
+        chart.updateOptions({
             xaxis: {
-                type: "category",
                 categories: data[0][2],
-                axisBorder: {
-                    show: true,
-                },
-                axisTicks: {
-                    show: true,
-                },
-                lines: {
-                    show: true,
-                },
-                labels: {
-                    show: true,
-                    rotate: -45,
-                    rotateAlways: false,
-                    hideOverlappingLabels: true,
-                    showDuplicates: false,
-                    trim: false,
-                    minHeight: undefined,
-                    maxHeight: 120,
-                    style: {
-                        colors: [],
-                        fontSize: "15px",
-                        fontFamily: "Poppins",
-                        fontWeight: 500,
-                        cssClass: "apexcharts-xaxis-label",
-                    },
-                },
-                axisBorder: {
-                    show: true,
-                    color: "#78909C",
-                    height: 1,
-                    width: "100%",
-                    offsetX: 0,
-                    offsetY: 0,
-                },
-                axisTicks: {
-                    show: true,
-                    borderType: "solid",
-                    color: "#78909C",
-                    height: 2,
-                    offsetX: 0,
-                    offsetY: 0,
-                },
-                crosshairs: {
-                    show: true,
-                    width: 1,
-                    position: "back",
-                    opacity: 1,
-                    stroke: {
-                        color: "#000",
-                        width: 2,
-                        dashArray: 5,
-                    },
-                    fill: {
-                        type: "solid",
-                        color: "#000",
-                    },
-                    dropShadow: {
-                        enabled: false,
-                        top: 0,
-                        left: 0,
-                        blur: 1,
-                        opacity: 0.4,
-                    },
-                },
             },
-            yaxis: {
-                tickAmount: 3,
-                labels: {
-                    show: true,
-                    align: "right",
-                    style: {
-                        colors: [],
-                        fontSize: "14px",
-                        fontFamily: "Poppins",
-                        fontWeight: 400,
-                        cssClass: "apexcharts-yaxis-label",
-                    },
-                    offsetX: 0,
-                    offsetY: 4,
-                    rotate: 0,
-                },
-            },
-            grid: {
-                borderColor: "rgba(0, 0, 0, 0.13)",
-
-                padding: {
-                    left: 23,
-                    right: 23,
-                },
-            },
-
-            fill: {
-                type: "solid",
-                opacity: 0.3,
-                colors: ["rgba(252, 211, 92, 0.5)", "rgba(117, 194, 246, 0.6)"],
-            },
-        };
-
-        var chart = new ApexCharts(
-            document.querySelector("#timeline-chart"),
-            options
-        );
-
-        chart.render();
+        });
     });
 }
+
+// Making Chart
+let options = {
+    tooltip: {
+        x: {
+            show: false,
+        },
+        style: {
+            fontSize: 14,
+            fontFamily: "Poppins",
+        },
+        onDatasetHover: {
+            highlightDataSeries: true,
+        },
+    },
+    animations: {
+        enabled: true,
+        easing: "linear",
+        speed: 800,
+        animateGradually: {
+            enabled: true,
+            delay: 350,
+        },
+        dynamicAnimation: {
+            enabled: true,
+            speed: 350,
+        },
+    },
+    noData: {
+        text: "Loading...",
+    },
+    chart: {
+        toolbar: {
+            show: false,
+        },
+        type: "area",
+        height: 180,
+        foreColor: "#000",
+        dropShadow: {
+            enabled: false,
+            enabledSeries: [0],
+            top: -2,
+            left: 2,
+            blur: 0,
+            opacity: 0.06,
+        },
+    },
+    colors: ["rgba(203, 151, 0, 1)", "#1D5D9B"],
+    stroke: {
+        curve: "smooth",
+        width: 3.5,
+    },
+    dataLabels: {
+        enabled: false,
+    },
+    series: [],
+    markers: {
+        size: 0,
+        strokeColor: "#FFF",
+        strokeWidth: 2,
+        strokeOpacity: 1,
+        fillOpacity: 1,
+        colors: ["rgba(203, 151, 0, 1)", "#1D5D9B"],
+        hover: {
+            size: 6,
+        },
+    },
+
+    xaxis: {
+        type: "category",
+        categories: [],
+        axisBorder: {
+            show: true,
+        },
+        axisTicks: {
+            show: true,
+        },
+        lines: {
+            show: true,
+        },
+        labels: {
+            show: true,
+            rotate: -45,
+            rotateAlways: false,
+            hideOverlappingLabels: true,
+            showDuplicates: false,
+            trim: false,
+            minHeight: undefined,
+            maxHeight: 120,
+            style: {
+                colors: [],
+                fontSize: "15px",
+                fontFamily: "Poppins",
+                fontWeight: 500,
+                cssClass: "apexcharts-xaxis-label",
+            },
+        },
+        axisBorder: {
+            show: true,
+            color: "#78909C",
+            height: 1,
+            width: "100%",
+            offsetX: 0,
+            offsetY: 0,
+        },
+        axisTicks: {
+            show: true,
+            borderType: "solid",
+            color: "#78909C",
+            height: 2,
+            offsetX: 0,
+            offsetY: 0,
+        },
+        crosshairs: {
+            show: true,
+            width: 1,
+            position: "back",
+            opacity: 1,
+            stroke: {
+                color: "#000",
+                width: 2,
+                dashArray: 5,
+            },
+            fill: {
+                type: "solid",
+                color: "#000",
+            },
+        },
+    },
+    yaxis: {
+        tickAmount: 3,
+        labels: {
+            show: true,
+            align: "right",
+            style: {
+                colors: [],
+                fontSize: "14px",
+                fontFamily: "Poppins",
+                fontWeight: 400,
+                cssClass: "apexcharts-yaxis-label",
+            },
+            offsetX: 0,
+            offsetY: 4,
+            rotate: 0,
+        },
+    },
+    grid: {
+        borderColor: "rgba(0, 0, 0, 0.13)",
+
+        padding: {
+            left: 23,
+            right: 23,
+        },
+    },
+
+    fill: {
+        type: "solid",
+        opacity: 0.3,
+        colors: ["rgba(252, 211, 92, 0.5)", "rgba(117, 194, 246, 0.6)"],
+    },
+};
+
+var chart = new ApexCharts(document.querySelector("#timeline-chart"), options);
+
+chart.render();
