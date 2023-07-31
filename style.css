@@ -49,7 +49,7 @@ table {
 
 /* CSS START */
 :root {
-    --background: #F6EDFF;
+    --background: #f7eeff;
     --button: white;
     --buttonhover: #e0b6ff;
     --card: rgba(208, 188, 255, 0.3);
@@ -68,7 +68,6 @@ nav{
     width: 100vw;
     font-family: var(--fontHeading);
     color: var(--textHeading);
-    border-radius: 0px 0px 32px 32px;
 }
 
 nav .nav-container{
@@ -86,6 +85,7 @@ nav .nav-container{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    filter: drop-shadow(0px 4px 4px rgba(57, 57, 57, 0.1));
 }
 
 nav .nav-container .search{
@@ -202,6 +202,7 @@ main .main-container{
     display: flex;
     flex-direction: column;
     gap: 16px;
+    filter: drop-shadow(0px 0px 4px rgba(57, 57, 57, 0.2));
 }
 main .time-choice{
     display: grid;
@@ -236,7 +237,7 @@ main .details-circum .card{
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
 }
 main .details-circum .card img{
     width: 36px;
@@ -245,6 +246,7 @@ main .details-circum .card img{
 }
 main .details-circum .card .circum-value{
     height: 80%;
+    width: 80px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -277,7 +279,7 @@ main .hourly{
     flex-direction: column;
     gap: 15px;
 }
-main .daily{
+.daily{
     background-color: var(--card);
     border-radius: 18px;
     width: 100%;
@@ -322,6 +324,7 @@ main .hourly .forecast-hourly .forecast-card{
 main .hourly .forecast-hourly .forecast-card h3{
     white-space: nowrap;
     font-family: var(--fontHeading);
+    color: var(--text);
     font-size: 14px;
 }
 main .hourly .forecast-hourly .forecast-card p{
@@ -341,8 +344,37 @@ main .daily div#chart{
     font-family: var(--fontChild);
     font-weight: bold;
 }
+nav #daily.daily {
+    display: none;
+}
+main .details-circum .card .interval{
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    padding: 0px 10px 10px 0;
+    width: 40px;
+    box-sizing: border-box;
+}
+main .details-circum .card .interval img{
+    width: 7px;
+    height: 4px;
+}
+main .details-circum .card .interval p{
+    color: #000;
+    font-family: var(--fontChild);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 145.455% */
+    letter-spacing: 0.5px;
+}
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 400px) {
+    nav{
+        width: 100%;
+        padding: 12px 12px 0px 12px;
+        box-sizing: border-box;
+    }
     nav .details h2{
         font-size: 100px;
     }
@@ -352,4 +384,70 @@ main .daily div#chart{
     nav{
         height: 406px;
     }
+}
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    nav #daily.daily {
+        display: block;
+        height: 258px;
+    }
+    nav{
+        width: 100%;
+        padding: 12px 12px 0px 12px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    nav .nav-container{
+        border-radius: 32px;
+        width: 100%;
+        background-image: url(image/night-background-image.png);
+        border-radius: 22px;
+        background-image: url(image/night-background-image.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    nav .nav-container .search input[type="text"]:focus{
+        width: 40vw;
+    }
+    body{
+        display: grid;
+        grid-template-columns: 50vw 50vw;
+    }
+    main .daily div#chart{
+        max-width: 100%;
+    }
+    main .details-circum .card{
+        border-radius: 16px;
+        background: var(--card);
+        height: 86px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+    
+}
+
+@media only screen and (min-width: 1200px){
+    main .details-circum{
+        display: grid;
+        grid-template-columns: 31.3% 31.3% 31.3%;
+        gap: 3%;
+        row-gap: 12px;
+    }
+    main .details-circum .card img{
+        width: 42px;
+        height: 42px;
+        padding-left: 10px;
+    }
+    main .details-circum .card .circum-value{
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    
 }

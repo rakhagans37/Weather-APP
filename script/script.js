@@ -102,6 +102,28 @@ function hourlyForecastAPI(latitude, longitude, city) {
         return error;
     }
 }
+function historicalAPI(latitude, longitude) {
+    const param = new URLSearchParams();
+
+    //Untuk mengambil parameter yang tepat untuk digunakan dalam URL
+    param.append("lat", latitude);
+    param.append("lon", longitude);
+
+    //Parameter wajib dalam URL
+    param.append("cnt", 1);
+    param.append("appid", "5e12c37e2ff0623c3469032dd5ba1d6b");
+
+    //Membuat request ke server
+    const request = new Request(
+        `https://history.openweathermap.org/data/2.5/history/city?${param}`
+    );
+    try {
+        const response = fetch(request);
+        return response.then((response) => response.json());
+    } catch (error) {
+        return error;
+    }
+}
 
 function makeTime() {
     const time = new Date();
@@ -138,6 +160,14 @@ async function getUV(latitude, longitude) {
 async function getHourlyForecast(latitude, longitude) {
     try {
         const response = await hourlyForecastAPI(latitude, longitude, city);
+        return response;
+    } catch (error) {
+        return error;
+    }
+}
+async function getHistoryForecast(latitude, longitude) {
+    try {
+        const response = await historicalAPI(latitude, longitude);
         return response;
     } catch (error) {
         return error;
@@ -209,6 +239,14 @@ function printData(response) {
     document.getElementById("rain-volume").textContent =
         (response?.rain?.["1h"] ?? response?.rain?.["3h"] ?? 0) + " mm";
 
+    //Print Cloud Intensity
+    document.getElementById("humidity").textContent =
+        response.main.humidity + " %";
+
+    //Print Cloud Intensity
+    document.getElementById("cloud-intensity").textContent =
+        response.clouds.all + " %";
+    //Print UV
     getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
         try {
             document.getElementById("uv-index").textContent = Math.round(
@@ -228,7 +266,7 @@ function printData(response) {
             for (let i = 0; i < 12; i++) {
                 const target = document.getElementById(`forecast${i + 1}`);
                 const date = new Date(
-                    Number(responseHourly.list[i].dt + "000") - 7000 * 3600
+                    Number(responseHourly.list[i].dt + "000")
                 );
 
                 target.querySelector("h3").textContent = `${date.toLocaleString(
@@ -267,6 +305,127 @@ function printData(response) {
         printChart(response.coord.lat, response.coord.lon);
     } catch (error) {
         document.getElementById("chart").textContent = "No Data";
+    }
+
+    //Print Gap
+    try {
+        getHistoryForecast(response.coord.lat, response.coord.lon).then(
+            (responseHistory) => {
+                for (let i = 1; i <= 5; i++) {
+                    const target = document.getElementById(`interval${i}`);
+                    const createImg = document.createElement("img");
+                    const createP = document.createElement("p");
+                    createImg.setAttribute("alt", "");
+
+                    if (target.hasChildNodes()) {
+                        target.removeChild(target.firstChild);
+                        target.removeChild(target.lastChild);
+                    }
+
+                    switch (i) {
+                        case 1: //Wind Speed
+                            if (
+                                response.wind.speed >
+                                responseHistory.list[0].wind.speed
+                            ) {
+                                createImg.src = "image/GapUp.png";
+                                createP.textContent = Math.round(
+                                    response.wind.speed -
+                                        responseHistory.list[0].wind.speed
+                                );
+                            } else {
+                                createImg.src = "image/GapDown.png";
+                                createP.textContent = Math.round(
+                                    responseHistory.list[0].wind.speed -
+                                        response.wind.speed
+                                );
+                            }
+
+                            break;
+                        case 2: //rain-volume
+                            if (
+                                response?.rain?.["1h"] === null ||
+                                response?.rain?.["1h"] === undefined
+                            ) {
+                                createImg.src = "image/GapUp.png";
+                                createP.textContent = "0";
+                            } else if (
+                                response.rain["1h"] >
+                                responseHistory.list[0].rain["1h"]
+                            ) {
+                                createImg.src = "image/GapUp.png";
+                                createP.textContent =
+                                    response.rain["1h"] -
+                                    responseHistory.list[0].rain["1h"];
+                            } else {
+                                createImg.src = "image/GapDown.png";
+                                createP.textContent =
+                                    responseHistory.list[0].rain["1h"] -
+                                    response.rain["1h"];
+                            }
+
+                            break;
+                        case 3: //Pressure
+                            if (
+                                response.main.pressure >
+                                responseHistory.list[0].main.pressure
+                            ) {
+                                createImg.src = "image/GapUp.png";
+                                createP.textContent =
+                                    response.main.pressure -
+                                    responseHistory.list[0].main.pressure;
+                            } else {
+                                createImg.src = "image/GapDown.png";
+                                createP.textContent =
+                                    responseHistory.list[0].main.pressure -
+                                    response.main.pressure;
+                            }
+
+                            break;
+                        case 4: //Humidity
+                            if (
+                                response.main.humidity >
+                                responseHistory.list[0].main.humidity
+                            ) {
+                                createImg.src = "image/GapUp.png";
+                                createP.textContent =
+                                    response.main.humidity -
+                                    responseHistory.list[0].main.humidity;
+                            } else {
+                                createImg.src = "image/GapDown.png";
+                                createP.textContent =
+                                    responseHistory.list[0].main.humidity -
+                                    response.main.humidity;
+                            }
+
+                            break;
+                        case 5: //Clouds
+                            if (
+                                response.clouds.all >
+                                responseHistory.list[0].clouds.all
+                            ) {
+                                createImg.src = "image/GapUp.png";
+                                createP.textContent =
+                                    response.clouds.all -
+                                    responseHistory.list[0].clouds.all;
+                            } else {
+                                createImg.src = "image/GapDown.png";
+                                createP.textContent =
+                                    responseHistory.list[0].clouds.all -
+                                    response.clouds.all;
+                            }
+
+                            break;
+                        default:
+                            break;
+                    }
+                    target.append(createImg);
+                    target.append(createP);
+                }
+            }
+        );
+    } catch {
+        console.log("Error");
     }
 }
 function printLoc(response) {
