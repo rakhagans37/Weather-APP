@@ -13,8 +13,8 @@
     <title>Weather APP</title>
 </head>
 <body>
-    <nav>
-        <div class="nav-container">
+    <nav id="navbar">
+        <div class="nav-container" id="nav-container">
             <div class="search">
                 <form class="search-button" id="city">
                     <label for="city">
@@ -47,12 +47,12 @@
             </div>
         </div>
         <div class="daily" id="daily">
-
+    
         </div>
+        
     </nav>
-
-    <main>
-        <div class="main-container">
+    <main id="main">
+        <div class="main-container" id="time-choice" aria-label="main">
             <div class="time-choice">
                 <button class="time-button active">Daily</button>
                 <button class="time-button">Hourly</button>
@@ -195,5 +195,6 @@
 
     <script type="module" src="script/script.js"></script>
     <script type="module" src="script/chart.js"></script>
+    <script src="script/scroll.js"></script>
 </body>
 </html>

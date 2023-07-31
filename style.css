@@ -50,6 +50,7 @@ table {
 /* CSS START */
 :root {
     --background: #f7eeff;
+    --backgroundScroll: #E2D3FA;
     --button: white;
     --buttonhover: #e0b6ff;
     --card: rgba(208, 188, 255, 0.3);
@@ -66,6 +67,7 @@ body{
 
 nav{
     width: 100vw;
+    height: max-content;
     font-family: var(--fontHeading);
     color: var(--textHeading);
 }
@@ -76,9 +78,10 @@ nav .nav-container{
     padding-left: 23px;
     padding-right: 23px;
     padding-top: 10px;
+    padding-bottom: 10px;
     box-sizing: border-box;
     gap: 50px;
-    height: 416px;
+    height: max-content;
     background-image: url(image/night-background-image.png);
     border-radius: 0px 0px 22px 22px;
     background-image: url(image/night-background-image.png);
@@ -195,6 +198,9 @@ nav .additional-info .sun{
 /* NAV END */
 
 /* MAIN START */
+main{
+    display: block;
+}
 main .main-container{
     padding-left: 23px;
     padding-right: 23px;
@@ -202,7 +208,6 @@ main .main-container{
     display: flex;
     flex-direction: column;
     gap: 16px;
-    filter: drop-shadow(0px 0px 4px rgba(57, 57, 57, 0.2));
 }
 main .time-choice{
     display: grid;
@@ -390,6 +395,99 @@ main .details-circum .card .interval p{
     nav .details .forecast img{
         width: 100px;
     }
+}
+@media only screen and (max-width: 992px) {
+    /* Tes */
+    nav.sticky{
+        position: sticky;
+        top: 0;
+    }
+    nav.sticky .nav-container{
+        position: sticky;
+        top: 0;
+        width: 100%;
+        overflow: hidden;
+        display:flex;
+        flex-direction: column;
+        padding-left: 23px;
+        padding-right: 23px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        box-sizing: border-box;
+        gap: 0px;
+        height: max-content;
+        background: var(--backgroundScroll);
+        background-size: cover;
+        background-position: center;
+        filter: drop-shadow(0px 4px 4px rgba(57, 57, 57, 0.1));
+    }
+    nav.sticky .nav-container .details p{
+        color: var(--text);
+    }
+    nav.sticky .nav-container .details-child{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+    }
+    nav.sticky .nav-container .details{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+    nav.sticky h1{
+        color: var(--text);
+    }
+    nav.sticky .nav-container .details h2{
+        color: var(--text);
+        font-size: 60px;
+        font-weight: 500;
+    }
+    nav.sticky .nav-container .details p{
+        color: var(--text);
+        font-size: 16px;
+        font-weight: 500;
+    }
+    nav.sticky .nav-container .additional-info{
+        display: none;
+        
+    }
+    nav.sticky .nav-container #forecast-desc{
+        display: none;
+    }
+    
+    main{
+        padding: 16px;
+        margin: 0px auto;
+    }
+    main .main-container{
+        padding: 16px;
+        margin: 0px auto;
+    }
+    nav .time-choice{
+        display: none;
+    }
+    nav.sticky .time-choice{
+        display: grid;
+        grid-template-columns: 30% 30% 30%;
+        gap: 5%;
+    }
+    nav.sticky .time-choice .time-button{
+        margin-top: 7px;
+        border-radius: 14px;
+        background: var(--button);
+        border: none;
+        width: 100%;
+        height: 42px;
+        font-family: var(--fontHeading);
+        font-weight: 500;
+        font-size: 16px;
+        text-align: center;
+    }
+    nav.sticky .time-choice .time-button.active{
+        background-color: var(--buttonhover);
+    }
+
 }
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
