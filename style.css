@@ -370,10 +370,19 @@ main .details-circum .card .interval p{
 }
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 400px) {
+    main .details-circum .card{
+        gap: 8px;
+        justify-content: flex-start;
+    }
+    main .details-circum .card .interval{
+        display: none;
+    }
     nav{
         width: 100%;
-        padding: 12px 12px 0px 12px;
         box-sizing: border-box;
+    }
+    nav .nav-container{
+        height: 406px;
     }
     nav .details h2{
         font-size: 100px;
@@ -381,12 +390,10 @@ main .details-circum .card .interval p{
     nav .details .forecast img{
         width: 100px;
     }
-    nav{
-        height: 406px;
-    }
 }
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+    
     nav #daily.daily {
         display: block;
         height: 258px;

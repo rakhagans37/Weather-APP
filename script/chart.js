@@ -207,6 +207,9 @@ let options = {
                 color: "#000",
             },
         },
+        tooltip: {
+            enabled: false,
+        },
     },
     yaxis: {
         tickAmount: 3,
