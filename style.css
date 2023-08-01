@@ -152,7 +152,6 @@ table {
 body {
     background-color: var(--background);
 }
-
 nav {
     width: 100vw;
     height: max-content;
@@ -176,7 +175,7 @@ nav .nav-container {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    filter: drop-shadow(0px 4px 4px rgba(57, 57, 57, 0.1));
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.25);
 }
 
 nav .nav-container .search {
@@ -332,20 +331,21 @@ main .time-choice .time-button {
     font-weight: 500;
     font-size: 16px;
     text-align: center;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.15);
 }
 
 main .time-choice .time-button.active {
     background-color: var(--buttonhover);
 }
 
-main .details-circum {
+main .details-circum, main .sun-condition {
     display: grid;
     grid-template-columns: 48% 48%;
     gap: 4%;
     row-gap: 12px;
 }
 
-main .details-circum .card {
+main .card {
     border-radius: 16px;
     background: var(--card);
     height: 65px;
@@ -353,15 +353,16 @@ main .details-circum .card {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.15);
 }
 
-main .details-circum .card img {
+main .card img {
     width: 36px;
     height: 36px;
     padding-left: 10px;
 }
 
-main .details-circum .card .circum-value {
+main .card .circum-value {
     height: 80%;
     width: 80px;
     display: flex;
@@ -369,7 +370,7 @@ main .details-circum .card .circum-value {
     justify-content: space-around;
 }
 
-main .details-circum .card .circum-value h3 {
+main .card .circum-value h3 {
     font-family: var(--fontHeading);
     color: var(--text);
     font-size: 14px;
@@ -380,7 +381,7 @@ main .details-circum .card .circum-value h3 {
     letter-spacing: 0.25px;
 }
 
-main .details-circum .card .circum-value p {
+main .card .circum-value p {
     color: var(--text);
     font-family: var(--fontChild);
     font-size: 16px;
@@ -399,6 +400,7 @@ main .hourly {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.15);
 }
 
 .daily {
@@ -409,6 +411,7 @@ main .hourly {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.15);
 }
 
 main .title {
@@ -505,6 +508,7 @@ main .details-circum .card .interval p {
     /* 145.455% */
     letter-spacing: 0.5px;
 }
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 400px) {

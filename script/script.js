@@ -445,7 +445,66 @@ function printData(response) {
     } catch (error) {
         console.log(`Kota Tidak Ditemukan, Error code: ${error}`);
     }
+
+    //Print Sun Condition
+    for (let i = 1; i <= 2; i++) {
+        const target = document.getElementById("sun-condition");
+        const createDivGap = document.createElement("div");
+        const createDiv = document.createElement("div");
+        const createDivTarget = document.createElement("div");
+        const createImg = document.createElement("img");
+        const createH3 = document.createElement("h3");
+        const createP = document.createElement("p");
+        const createPGap = document.createElement("p");
+
+        createDiv.className = "circum-value";
+        createDivTarget.className = "card";
+        createP.textContent =
+            i === 1
+                ? new Date(Number(response.sys.sunrise + "000")).toLocaleString(
+                      "en-US",
+                      {
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true,
+                      }
+                  )
+                : new Date(Number(response.sys.sunset + "000")).toLocaleString(
+                      "en-US",
+                      {
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true,
+                      }
+                  );
+        createImg.src = i === 1 ? `image/Sunrise.png` : `image/Sunset.png`;
+        createImg.alt = i === 1 ? "image/Sunrise.png" : "image/Sunset.png";
+        createH3.textContent = i === 1 ? "Sunrise" : "Sunset";
+        console.log(
+            `${
+                new Date().getHours() -
+                new Date(Number(response.sys.sunrise + "000")).getHours()
+            }`
+        );
+
+        createPGap.textContent =
+            i === 1
+                ? new Date().getHours() -
+                  new Date(Number(response.sys.sunrise + "000")).getHours()
+                : new Date().getHours() -
+                  new Date(Number(response.sys.sunrise + "000")).getHours();
+
+        createDivGap.className = "interval";
+        createDivGap.appendChild(createPGap);
+        createDiv.appendChild(createH3);
+        createDiv.appendChild(createP);
+        createDivTarget.appendChild(createImg);
+        createDivTarget.appendChild(createDiv);
+        createDivTarget.appendChild(createDivGap);
+        target.appendChild(createDivTarget);
+    }
 }
+
 function printLoc(response) {
     document.getElementById("location").textContent = `${
         response[0].local_names.id ?? response[0].name
