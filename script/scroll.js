@@ -17,7 +17,6 @@ function doSomethingReverse() {
 function showList() {
     console.log(navbar.classList == "sticky");
 }
-setInterval(showList, 3000);
 
 if (navbar.classList != "sticky") {
     document.addEventListener("scroll", (event) => {
