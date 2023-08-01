@@ -508,6 +508,25 @@ main .details-circum .card .interval p {
     /* 145.455% */
     letter-spacing: 0.5px;
 }
+main .sun-condition .card .interval {
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    padding: 0px 10px 10px 0;
+    width: 40px;
+    box-sizing: border-box;
+}
+
+main .sun-condition .card .interval p {
+    color: #000;
+    font-family: var(--fontChild);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    /* 145.455% */
+    letter-spacing: 0.5px;
+}
 
 
 /* Extra small devices (phones, 600px and down) */
@@ -518,6 +537,9 @@ main .details-circum .card .interval p {
     }
 
     main .details-circum .card .interval {
+        display: none;
+    }
+    main .sun-condition .card .interval {
         display: none;
     }
 

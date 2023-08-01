@@ -487,12 +487,16 @@ function printData(response) {
             }`
         );
 
+        const timeToSunrise =
+            new Date().getHours() -
+            new Date(Number(response.sys.sunrise + "000")).getHours();
+        const timeToSunset =
+            new Date().getHours() -
+            new Date(Number(response.sys.sunset + "000")).getHours();
+
         createPGap.textContent =
-            i === 1
-                ? new Date().getHours() -
-                  new Date(Number(response.sys.sunrise + "000")).getHours()
-                : new Date().getHours() -
-                  new Date(Number(response.sys.sunrise + "000")).getHours();
+            (i === 1 ? timeToSunrise : timeToSunset) +
+            (timeToSunrise < 0 || timeToSunset < 0 ? "h To Go" : "h Ago");
 
         createDivGap.className = "interval";
         createDivGap.appendChild(createPGap);
