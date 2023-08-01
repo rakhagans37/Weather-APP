@@ -628,7 +628,7 @@ main .details-circum .card .interval p {
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 16px;
     }
 
     nav .nav-container {
