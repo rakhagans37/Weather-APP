@@ -490,6 +490,7 @@ main .details-circum .card .interval {
 }
 
 main .details-circum .card .interval img {
+    padding: 0;
     width: 7px;
     height: 4px;
 }

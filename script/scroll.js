@@ -14,16 +14,10 @@ function doSomethingReverse() {
     main.classList.remove("sticky");
 }
 
-function showList() {
-    console.log(navbar.classList == "sticky");
-}
-
 if (navbar.classList != "sticky") {
     document.addEventListener("scroll", (event) => {
         event.preventDefault();
-        console.log("ini 2");
         let lastKnownScrollPosition = window.scrollY;
-        console.log(lastKnownScrollPosition);
 
         if (lastKnownScrollPosition > 249) {
             console.log("masuk");

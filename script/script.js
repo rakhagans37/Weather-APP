@@ -259,9 +259,8 @@ function printData(response) {
             }
         });
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-    
 
     //Print hourly
     try {
@@ -273,15 +272,14 @@ function printData(response) {
                     const date = new Date(
                         Number(responseHourly.list[i].dt + "000")
                     );
-    
-                    target.querySelector("h3").textContent = `${date.toLocaleString(
-                        "en-US",
-                        {
-                            hour: "numeric",
-                            hour12: true,
-                        }
-                    )}`;
-    
+
+                    target.querySelector(
+                        "h3"
+                    ).textContent = `${date.toLocaleString("en-US", {
+                        hour: "numeric",
+                        hour12: true,
+                    })}`;
+
                     //If clouds
                     if (responseHourly.list[i].weather[0].id > 800) {
                         target
@@ -298,7 +296,7 @@ function printData(response) {
                                 `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
                             );
                     }
-    
+
                     target.querySelector("span").textContent = `${Math.round(
                         responseHourly.list[i].main.temp
                     )}`;
@@ -306,9 +304,9 @@ function printData(response) {
             }
         );
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-    
+
     //Print Chart
     try {
         printChart(response.coord.lat, response.coord.lon);
@@ -363,14 +361,16 @@ function printData(response) {
                                 responseHistory.list[0].rain["1h"]
                             ) {
                                 createImg.src = "image/GapUp.png";
-                                createP.textContent =
+                                createP.textContent = (
                                     response.rain["1h"] -
-                                    responseHistory.list[0].rain["1h"];
+                                    responseHistory.list[0].rain["1h"]
+                                ).toFixed(2);
                             } else {
                                 createImg.src = "image/GapDown.png";
-                                createP.textContent =
+                                createP.textContent = (
                                     responseHistory.list[0].rain["1h"] -
-                                    response.rain["1h"];
+                                    response.rain["1h"]
+                                ).toFixed(2);
                             }
 
                             break;
@@ -436,7 +436,7 @@ function printData(response) {
     } catch {
         console.log("Error");
     }
-    
+
     //Print Location
     try {
         getLoc(response.coord.lat, response.coord.lon).then((response) => {
