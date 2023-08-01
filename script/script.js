@@ -247,59 +247,68 @@ function printData(response) {
     document.getElementById("cloud-intensity").textContent =
         response.clouds.all + " %";
     //Print UV
-    getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
-        try {
-            document.getElementById("uv-index").textContent = Math.round(
-                responseUV.result.uv
-            );
-        } catch (error) {
-            document.getElementById("uv-index").textContent = "NO DATA";
-            console.log(`Error Occured : ${error}`);
-        }
-    });
+    try {
+        getUV(response.coord.lat, response.coord.lon).then((responseUV) => {
+            try {
+                document.getElementById("uv-index").textContent = Math.round(
+                    responseUV.result.uv
+                );
+            } catch (error) {
+                document.getElementById("uv-index").textContent = "NO DATA";
+                console.log(`Error Occured : ${error}`);
+            }
+        });
+    } catch (error) {
+        console.log(error)
+    }
+    
 
     //Print hourly
-
-    getHourlyForecast(response.coord.lat, response.coord.lon).then(
-        (responseHourly) => {
-            console.log();
-            for (let i = 0; i < 12; i++) {
-                const target = document.getElementById(`forecast${i + 1}`);
-                const date = new Date(
-                    Number(responseHourly.list[i].dt + "000")
-                );
-
-                target.querySelector("h3").textContent = `${date.toLocaleString(
-                    "en-US",
-                    {
-                        hour: "numeric",
-                        hour12: true,
+    try {
+        getHourlyForecast(response.coord.lat, response.coord.lon).then(
+            (responseHourly) => {
+                console.log();
+                for (let i = 0; i < 12; i++) {
+                    const target = document.getElementById(`forecast${i + 1}`);
+                    const date = new Date(
+                        Number(responseHourly.list[i].dt + "000")
+                    );
+    
+                    target.querySelector("h3").textContent = `${date.toLocaleString(
+                        "en-US",
+                        {
+                            hour: "numeric",
+                            hour12: true,
+                        }
+                    )}`;
+    
+                    //If clouds
+                    if (responseHourly.list[i].weather[0].id > 800) {
+                        target
+                            .querySelector("img")
+                            .setAttribute(
+                                "src",
+                                `image/forecast icon/${responseHourly.list[i].weather[0].id}.png`
+                            );
+                    } else {
+                        target
+                            .querySelector("img")
+                            .setAttribute(
+                                "src",
+                                `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
+                            );
                     }
-                )}`;
-
-                //If clouds
-                if (responseHourly.list[i].weather[0].id > 800) {
-                    target
-                        .querySelector("img")
-                        .setAttribute(
-                            "src",
-                            `image/forecast icon/${responseHourly.list[i].weather[0].id}.png`
-                        );
-                } else {
-                    target
-                        .querySelector("img")
-                        .setAttribute(
-                            "src",
-                            `image/forecast icon/${responseHourly.list[i].weather[0].main}.png`
-                        );
+    
+                    target.querySelector("span").textContent = `${Math.round(
+                        responseHourly.list[i].main.temp
+                    )}`;
                 }
-
-                target.querySelector("span").textContent = `${Math.round(
-                    responseHourly.list[i].main.temp
-                )}`;
             }
-        }
-    );
+        );
+    } catch (error) {
+        console.log(error)
+    }
+    
     //Print Chart
     try {
         printChart(response.coord.lat, response.coord.lon);
@@ -427,6 +436,15 @@ function printData(response) {
     } catch {
         console.log("Error");
     }
+    
+    //Print Location
+    try {
+        getLoc(response.coord.lat, response.coord.lon).then((response) => {
+            printLoc(response);
+        });
+    } catch (error) {
+        console.log(`Kota Tidak Ditemukan, Error code: ${error}`);
+    }
 }
 function printLoc(response) {
     document.getElementById("location").textContent = `${
@@ -442,9 +460,6 @@ function getAllData() {
         getTemp(latitude, longitude).then((response) => {
             printData(response);
         });
-        getLoc(latitude, longitude).then((response) => {
-            printLoc(response);
-        });
     });
 }
 
@@ -459,13 +474,6 @@ document.getElementById("city").addEventListener("submit", function (event) {
             printData(response);
         } catch (error) {
             alert("Kota Tidak Ditemukan");
-        }
-        try {
-            getLoc(response.coord.lat, response.coord.lon).then((response) => {
-                printLoc(response);
-            });
-        } catch (error) {
-            console.log(`Kota Tidak Ditemukan, Error code: ${error}`);
         }
     });
     document.getElementById("city-input").value = "";

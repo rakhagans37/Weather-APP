@@ -1,29 +1,44 @@
 let lastKnownScrollPosition = 0;
-let ticking = false;
+const navbar = document.getElementById("navbar");
+const main = document.getElementById("main");
 
-function doSomething(scrollPos) {
-    // Do something with the scroll position
-    if (scrollPos >= 10) {
-        document.getElementById("navbar").classList.add("sticky");
-        document.getElementById("main").classList.add("sticky");
-    } else {
-        document.getElementById("navbar").classList.remove("sticky");
-        document.getElementById("main").classList.add("sticky");
-    }
+function doSomething() {
+    //Do something with the scroll position
+    navbar.classList.add("sticky");
+    main.classList.add("sticky");
+
 }
 
-document.addEventListener("scroll", (event) => {
-    event.preventDefault();
-    window.sc;
-    lastKnownScrollPosition = window.scrollY;
-    console.log(lastKnownScrollPosition);
+function doSomethingReverse(){
+    console.log("reverse")
+    navbar.classList.remove("sticky");
+    main.classList.remove("sticky"); 
+}
 
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            doSomething(lastKnownScrollPosition);
-            ticking = false;
-        });
+function showList(){
+    console.log(navbar.classList == "sticky")
+}
+setInterval(showList,3000)
 
-        ticking = true;
-    }
-});
+    
+
+if(navbar.classList != "sticky"){
+    document.addEventListener("scroll", (event) => {
+        event.preventDefault();
+        console.log("ini 2")
+        lastKnownScrollPosition = window.scrollY;
+        console.log(lastKnownScrollPosition)
+    
+        if(lastKnownScrollPosition > 249){
+            console.log("masuk")
+            doSomething();
+        }
+        if(lastKnownScrollPosition <= 0){
+            doSomethingReverse();
+        }
+    })
+} 
+
+
+
+
