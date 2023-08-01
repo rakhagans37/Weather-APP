@@ -20,7 +20,6 @@ if (navbar.classList != "sticky") {
         let lastKnownScrollPosition = window.scrollY;
 
         if (lastKnownScrollPosition > 249) {
-            console.log("masuk");
             doSomething();
             lastKnownScrollPosition = 10;
         }
