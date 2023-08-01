@@ -452,7 +452,7 @@ function printLoc(response) {
     }, ${response[0].state ?? response[0].country}`;
 }
 
-function getAllData() {
+function getDataByGPS() {
     navigator.geolocation.getCurrentPosition((position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
@@ -480,4 +480,4 @@ document.getElementById("city").addEventListener("submit", function (event) {
 });
 
 setInterval(makeTime, 1000);
-getAllData();
+getDataByGPS();
