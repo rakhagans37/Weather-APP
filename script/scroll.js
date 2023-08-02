@@ -32,7 +32,7 @@ if (navbar.classList != "sticky") {
         }
         if (lastKnownScrollPosition <= 0) {
             navbar.classList.add("remove");
-            setTimeout(doSomethingReverse, 200);
+            setTimeout(doSomethingReverse, 140);
         }
     });
 }
