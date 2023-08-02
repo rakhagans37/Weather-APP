@@ -1,3 +1,6 @@
+//Global Var
+let time;
+
 // Function, Async, and API call
 import { getSevenDaysDetails, printChart, dayForecast } from "./chart.js";
 function locAPI(latitude, longitude) {
@@ -125,12 +128,17 @@ function historicalAPI(latitude, longitude) {
     }
 }
 
-function makeTime() {
-    const time = new Date();
+function makeTime(timezone) {
+    document.getElementById("date-time").innerHTML = "";
+    const time = new Date(
+        new Date().getTime() + new Date().getTimezoneOffset() * 60000 + timezone
+    ); //Date to make it from second to milis
     document.getElementById("date-time").textContent = `${time.toLocaleString(
         "default",
         { month: "long" }
-    )} ${time.getDate()}, ${time.toLocaleTimeString()}`;
+    )} ${time.getDate()}, ${time.toLocaleTimeString()} UTC ${
+        timezone > 0 ? "+" : ""
+    }${timezone / 3600000}`;
 }
 
 async function getTemp(latitude, longitude, city) {
@@ -175,6 +183,12 @@ async function getHistoryForecast(latitude, longitude) {
 }
 
 function printData(response) {
+    //Print Time
+    clearInterval(time ?? 0);
+    time = setInterval(() => {
+        makeTime(response.timezone * 1000), 1000;
+    });
+
     //Print current data temperature
     document.getElementById("temp").textContent = Math.round(
         response.main.temp
@@ -190,7 +204,10 @@ function printData(response) {
         new Date().getTime() + response.timezone * 1000
     ).toISOString(); //Algorithm to convert timezone in second to UTC
 
-    if (locationTime.substring(11, 13) > 18) {
+    if (
+        locationTime.substring(11, 13) > 18 ||
+        locationTime.substring(11, 13) < 4
+    ) {
         if (response.weather[0].id > 800) {
             document
                 .getElementById("forecast-icon")
@@ -481,12 +498,6 @@ function printData(response) {
             createImg.src = i === 1 ? `image/Sunrise.png` : `image/Sunset.png`;
             createImg.alt = i === 1 ? "image/Sunrise.png" : "image/Sunset.png";
             createH3.textContent = i === 1 ? "Sunrise" : "Sunset";
-            console.log(
-                `${
-                    new Date().getHours() -
-                    new Date(Number(response.sys.sunrise + "000")).getHours()
-                }`
-            );
 
             const timeToSunrise =
                 new Date().getHours() -
@@ -496,8 +507,13 @@ function printData(response) {
                 new Date(Number(response.sys.sunset + "000")).getHours();
 
             createPGap.textContent =
-                (i === 1 ? timeToSunrise : timeToSunset) +
-                (timeToSunrise < 0 || timeToSunset < 0 ? "h To Go" : "h Ago");
+                i === 1
+                    ? timeToSunrise > 0
+                        ? timeToSunrise + "h Ago"
+                        : timeToSunrise * -1 + "h Togo"
+                    : timeToSunset > 0
+                    ? timeToSunset + "h Ago"
+                    : timeToSunset * -1 + "h Togo";
 
             createDivGap.className = "interval";
             createDivGap.appendChild(createPGap);
@@ -546,5 +562,5 @@ document.getElementById("city").addEventListener("submit", function (event) {
     document.getElementById("city-input").value = "";
 });
 
-setInterval(makeTime, 1000);
+//Print Time
 getDataByGPS();

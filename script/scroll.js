@@ -9,7 +9,6 @@ function doSomething() {
 }
 
 function doSomethingReverse() {
-    console.log("reverse");
     navbar.classList.remove("sticky");
     main.classList.remove("sticky");
 }
