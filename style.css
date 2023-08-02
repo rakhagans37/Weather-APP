@@ -157,6 +157,9 @@ nav {
     height: max-content;
     font-family: var(--fontHeading);
     color: var(--textHeading);
+    transform: translateY(0px);
+    opacity: 1;
+    transition: 0.5s all ease;
 }
 
 nav .nav-container {
@@ -183,6 +186,7 @@ nav .nav-container .search {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    position: relative;
 }
 
 nav .nav-container .search button {
@@ -560,9 +564,20 @@ main .sun-condition .card .interval p {
 @media only screen and (max-width: 992px) {
 
     /* Tes */
+    nav.delete{
+        transform: translateY(-30px);
+        opacity: 1;
+    }
     nav.sticky {
         position: sticky;
         top: 0;
+        border-radius: 0px 0px 0px 0px; 
+        transform: translateY(0px);
+        opacity: 1;
+    }
+    nav.remove{
+        transform: translateY(-30px);
+        opacity: 0;
     }
 
     nav.sticky .nav-container {
@@ -583,6 +598,7 @@ main .sun-condition .card .interval p {
         background-size: cover;
         background-position: center;
         filter: drop-shadow(0px 4px 4px rgba(57, 57, 57, 0.1));
+        border-radius: 0px 0px 0px 0px;
     }
 
     nav.sticky .nav-container .details p {

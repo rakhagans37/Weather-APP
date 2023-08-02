@@ -4,13 +4,22 @@ const main = document.getElementById("main");
 
 function doSomething() {
     //Do something with the scroll position
-    navbar.classList.add("sticky");
+    navbar.classList.add("delete");
     main.classList.add("sticky");
+    setTimeout(() => {
+        navbar.classList.add("sticky");
+    }, 200);
 }
 
 function doSomethingReverse() {
+    navbar.classList.remove("delete");
     navbar.classList.remove("sticky");
+    navbar.classList.remove("reveal");
     main.classList.remove("sticky");
+    navbar.classList.remove("remove");
+}
+function addAnim() {
+    navbar.classList.add("reveal");
 }
 
 if (navbar.classList != "sticky") {
@@ -18,12 +27,12 @@ if (navbar.classList != "sticky") {
         event.preventDefault();
         let lastKnownScrollPosition = window.scrollY;
 
-        if (lastKnownScrollPosition > 249) {
+        if (lastKnownScrollPosition > 150) {
             doSomething();
-            lastKnownScrollPosition = 10;
         }
         if (lastKnownScrollPosition <= 0) {
-            doSomethingReverse();
+            navbar.classList.add("remove");
+            setTimeout(doSomethingReverse, 200);
         }
     });
 }
