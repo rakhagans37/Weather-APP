@@ -534,15 +534,27 @@ function printLoc(response) {
         response[0].local_names.id ?? response[0].name
     }, ${response[0].state ?? response[0].country}`;
 }
-
+function loading() {
+    document.querySelector("section").style.display = "none";
+    document.querySelector("body").style.overflow = "scroll";
+}
+function loadingOn() {
+    document.querySelector("section").style.display = "block";
+    document.querySelector("body").style.overflow = "hidden";
+}
 function getDataByGPS() {
     navigator.geolocation.getCurrentPosition((position) => {
+        console.log("asdasd");
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        getTemp(latitude, longitude).then((response) => {
-            printData(response);
-        });
+        getTemp(latitude, longitude)
+            .then((response) => {
+                printData(response);
+            })
+            .then(() => {
+                setTimeout(loading, 2000);
+            });
     });
 }
 
@@ -552,13 +564,18 @@ document.getElementById("city").addEventListener("submit", function (event) {
     const city = document.getElementById("city-input").value;
 
     //Memanggil async function untuk get data
-    getTemp(null, null, city).then((response) => {
-        try {
-            printData(response);
-        } catch (error) {
-            alert("Kota Tidak Ditemukan");
-        }
-    });
+    getTemp(null, null, city)
+        .then((response) => {
+            loadingOn();
+            try {
+                printData(response);
+            } catch (error) {
+                alert("Kota Tidak Ditemukan");
+            }
+        })
+        .then(() => {
+            setTimeout(loading, 1000);
+        });
     document.getElementById("city-input").value = "";
 });
 

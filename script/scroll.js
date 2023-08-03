@@ -8,7 +8,7 @@ function doSomething() {
     main.classList.add("sticky");
     setTimeout(() => {
         navbar.classList.add("sticky");
-    }, 200);
+    }, 50);
 }
 
 function doSomethingReverse() {
@@ -32,7 +32,7 @@ if (navbar.classList != "sticky") {
         }
         if (lastKnownScrollPosition <= 0) {
             navbar.classList.add("remove");
-            setTimeout(doSomethingReverse, 140);
+            setTimeout(doSomethingReverse, 50);
         }
     });
 }
