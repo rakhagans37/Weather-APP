@@ -56,21 +56,21 @@ export async function getSevenDaysDetails(latitude, longitude) {
 export async function getHourlyDetails(latitude, longitude) {
     const response = await hourlyForecastAPI(latitude, longitude);
     console.log(response.list.length);
-    const value = [[], [], [], []];
-    const weekday = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-    ];
+    const value = [[], []];
 
     for (let i = 0; i < 96; i++) {
-        value[0].push(response.list[i].main.temp);
-        value[1].push(response.list[i].main.feels_like);
-        value[2].push(new Date(response.list[i].dt));
+        let temporaryArray = [];
+        temporaryArray.push(response.list[i].dt * 1000);
+        temporaryArray.push(response.list[i].main.temp);
+
+        value[0].push(temporaryArray);
+    }
+    for (let i = 0; i < 96; i++) {
+        let temporaryArray = [];
+        temporaryArray.push(response.list[i].dt * 1000);
+        temporaryArray.push(response.list[i].main.feels_like);
+
+        value[1].push(temporaryArray);
     }
 
     return value;
@@ -110,27 +110,22 @@ export function printChartHourly(latitude, longitude) {
     getHourlyDetails(latitude, longitude).then((response) => {
         const data = [];
         data.push(response);
+        console.log(data);
 
         //Print current days temperature day and night
-        document.getElementById("day").textContent = data[0][0][0];
-        document.getElementById("night").textContent = data[0][1][0];
+        document.getElementById("day").textContent = data[0][0][0][1];
+        document.getElementById("night").textContent = data[0][1][0][1];
 
         chart.updateSeries([
-            {
-                name: "Temp",
-                data: data[0][0],
-            },
             {
                 name: "Feels Like",
                 data: data[0][1],
             },
-        ]);
-
-        chart.updateOptions({
-            xaxis: {
-                categories: data[0][2],
+            {
+                name: "Temp",
+                data: data[0][0],
             },
-        });
+        ]);
     });
 }
 
@@ -202,7 +197,7 @@ let options = {
     },
 
     xaxis: {
-        type: "category",
+        type: "datetime",
         axisBorder: {
             show: true,
         },
@@ -228,6 +223,8 @@ let options = {
                 fontWeight: 500,
                 cssClass: "apexcharts-xaxis-label",
             },
+
+            format: "MMM dd",
         },
         axisBorder: {
             show: true,
@@ -261,7 +258,16 @@ let options = {
             },
         },
         tooltip: {
-            enabled: false,
+            enabled: true,
+            offsetY: 0,
+            formatter: function (val, opts) {
+                return new Date(val).toLocaleString();
+            },
+            style: {
+                fontSize: "13px",
+                fontFamily: "Poppins",
+                fontWeight: "300",
+            },
         },
     },
     yaxis: {

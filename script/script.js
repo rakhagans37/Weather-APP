@@ -332,7 +332,7 @@ function printData(response) {
 
     //Print Chart
     try {
-        printChart(response.coord.lat, response.coord.lon);
+        printChartHourly(response.coord.lat, response.coord.lon);
     } catch (error) {
         document.getElementById("chart").textContent = "No Data";
     }
