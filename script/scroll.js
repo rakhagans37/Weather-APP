@@ -6,9 +6,6 @@ function doSomething() {
     //Do something with the scroll position
     navbar.classList.add("delete");
     main.classList.add("sticky");
-    setTimeout(() => {
-        navbar.classList.add("sticky");
-    }, 50);
 }
 
 function doSomethingReverse() {
@@ -18,9 +15,6 @@ function doSomethingReverse() {
     main.classList.remove("sticky");
     navbar.classList.remove("remove");
 }
-function addAnim() {
-    navbar.classList.add("reveal");
-}
 
 if (navbar.classList != "sticky") {
     document.addEventListener("scroll", (event) => {
@@ -29,6 +23,9 @@ if (navbar.classList != "sticky") {
 
         if (lastKnownScrollPosition > 150) {
             doSomething();
+            setTimeout(() => {
+                navbar.classList.add("sticky");
+            }, 50);
         }
         if (lastKnownScrollPosition <= 0) {
             navbar.classList.add("remove");

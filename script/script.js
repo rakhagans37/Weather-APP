@@ -184,7 +184,7 @@ async function getHistoryForecast(latitude, longitude) {
 
 function printData(response) {
     //Print Time
-    clearInterval(time ?? 0);
+    clearInterval(time ?? 0); //Delete interval pada time, jika null clear 0 (artinya tidak melakukan apapun)
     time = setInterval(() => {
         makeTime(response.timezone * 1000), 1000;
     });
@@ -287,7 +287,9 @@ function printData(response) {
                 for (let i = 0; i < 12; i++) {
                     const target = document.getElementById(`forecast${i + 1}`);
                     const date = new Date(
-                        Number(responseHourly.list[i].dt + "000")
+                        responseHourly.list[i].dt * 1000 +
+                            new Date().getTimezoneOffset() * 60000 +
+                            responseHourly.city.timezone * 1000
                     );
 
                     target.querySelector(
