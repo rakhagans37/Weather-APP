@@ -1,3 +1,5 @@
+import { hourlyForecastAPI } from "../script/script.js";
+
 export function dayForecast(latitude, longitude, city) {
     const param = new URLSearchParams();
 
@@ -51,6 +53,29 @@ export async function getSevenDaysDetails(latitude, longitude) {
     return value;
 }
 
+export async function getHourlyDetails(latitude, longitude) {
+    const response = await hourlyForecastAPI(latitude, longitude);
+    console.log(response.list.length);
+    const value = [[], [], [], []];
+    const weekday = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
+
+    for (let i = 0; i < 96; i++) {
+        value[0].push(response.list[i].main.temp);
+        value[1].push(response.list[i].main.feels_like);
+        value[2].push(new Date(response.list[i].dt));
+    }
+
+    return value;
+}
+
 export function printChart(latitude, longitude) {
     //Print day temp
     getSevenDaysDetails(latitude, longitude).then((response) => {
@@ -68,6 +93,35 @@ export function printChart(latitude, longitude) {
             },
             {
                 name: "Night",
+                data: data[0][1],
+            },
+        ]);
+
+        chart.updateOptions({
+            xaxis: {
+                categories: data[0][2],
+            },
+        });
+    });
+}
+
+export function printChartHourly(latitude, longitude) {
+    //Print day temp
+    getHourlyDetails(latitude, longitude).then((response) => {
+        const data = [];
+        data.push(response);
+
+        //Print current days temperature day and night
+        document.getElementById("day").textContent = data[0][0][0];
+        document.getElementById("night").textContent = data[0][1][0];
+
+        chart.updateSeries([
+            {
+                name: "Temp",
+                data: data[0][0],
+            },
+            {
+                name: "Feels Like",
                 data: data[0][1],
             },
         ]);
@@ -149,7 +203,6 @@ let options = {
 
     xaxis: {
         type: "category",
-        categories: [],
         axisBorder: {
             show: true,
         },
@@ -247,3 +300,5 @@ let options = {
 var chart = new ApexCharts(document.querySelector("#timeline-chart"), options);
 
 chart.render();
+
+getHourlyDetails(-0.8635, 100.3464);

@@ -1,8 +1,12 @@
 //Global Var
 let time;
-
 // Function, Async, and API call
-import { getSevenDaysDetails, printChart, dayForecast } from "./chart.js";
+import {
+    getSevenDaysDetails,
+    printChart,
+    dayForecast,
+    printChartHourly,
+} from "./chart.js";
 function locAPI(latitude, longitude) {
     const param = new URLSearchParams();
     param.append("lat", latitude);
@@ -77,7 +81,7 @@ function uvAPI(latitude, longitude) {
     }
 }
 
-function hourlyForecastAPI(latitude, longitude, city) {
+export function hourlyForecastAPI(latitude, longitude, city) {
     const param = new URLSearchParams();
 
     //Untuk mengambil parameter yang tepat untuk digunakan dalam URL
@@ -92,7 +96,7 @@ function hourlyForecastAPI(latitude, longitude, city) {
     param.append("appid", "5e12c37e2ff0623c3469032dd5ba1d6b");
     param.append("units", "metric");
     param.append("lang", "id");
-    param.append("cnt", 12);
+    param.append("cnt", 96);
 
     //Membuat request ke server
     const request = new Request(
@@ -546,7 +550,6 @@ function loadingOn() {
 }
 function getDataByGPS() {
     navigator.geolocation.getCurrentPosition((position) => {
-        console.log("asdasd");
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
