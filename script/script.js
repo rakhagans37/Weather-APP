@@ -332,6 +332,11 @@ function printData(response) {
 
     //Print Chart
     try {
+        printChart(response.coord.lat, response.coord.lon);
+    } catch (error) {
+        document.getElementById("chart").textContent = "No Data";
+    }
+    try {
         printChartHourly(response.coord.lat, response.coord.lon);
     } catch (error) {
         document.getElementById("chart").textContent = "No Data";
@@ -375,7 +380,7 @@ function printData(response) {
                         case 2: //rain-volume
                             if (
                                 response?.rain?.["1h"] === null ||
-                                response?.rain?.["1h"] === undefined
+                                responseHistory?.rain?.["1h"] === undefined
                             ) {
                                 createImg.src = "image/GapUp.png";
                                 createP.textContent = "0";
@@ -386,13 +391,13 @@ function printData(response) {
                                 createImg.src = "image/GapUp.png";
                                 createP.textContent = (
                                     response.rain["1h"] -
-                                    responseHistory.list[0].rain["1h"]
+                                        responseHistory.list[0].rain["1h"] ?? 0
                                 ).toFixed(2);
                             } else {
                                 createImg.src = "image/GapDown.png";
                                 createP.textContent = (
-                                    responseHistory.list[0].rain["1h"] -
-                                    response.rain["1h"]
+                                    responseHistory.list[0].rain["1h"] ??
+                                    0 - response.rain["1h"]
                                 ).toFixed(2);
                             }
 

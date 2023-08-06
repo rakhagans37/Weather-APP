@@ -54,8 +54,8 @@
     <main id="main">
         <div class="main-container" aria-label="main">
             <div class="time-choice" id="time-choice" >
-                <button class="time-button active">Daily</button>
-                <button class="time-button">Hourly</button>
+                <button class="time-button active" id="daily-timestamp" onclick="chooseDaily()">Daily</button>
+                <button class="time-button" id="hourly-timestamp" onclick="chooseHourly()">Hourly</button>
                 <button class="time-button">UV Index</button>
             </div>
             <div class="details-circum">
@@ -188,6 +188,7 @@
                 </div>
                 <div class="chart" id="chart">
                     <div id="timeline-chart"></div>
+                    <div id="hourly-chart" style="display: none;"></div>
                 </div>
             </div>
             
@@ -205,7 +206,21 @@
         </div>
         
     </section>
+    <script>
+        function chooseDaily() {
+        document.getElementById("daily-timestamp").classList.add("active");
+        document.getElementById("timeline-chart").style.display = "block";
+        document.getElementById("hourly-timestamp").classList.remove("active");
+        document.getElementById("hourly-chart").style.display = "none";
+    }
 
+    function chooseHourly() {
+        document.getElementById("hourly-timestamp").classList.add("active");
+        document.getElementById("timeline-chart").style.display = "none";
+        document.getElementById("daily-timestamp").classList.remove("active");
+        document.getElementById("hourly-chart").style.display = "block";
+    }
+    </script>
     <script type="module" src="script/script.js"></script>
     <script type="module" src="script/chart.js"></script>
     <script src="script/scroll.js"></script>

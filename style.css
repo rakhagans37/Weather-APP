@@ -339,7 +339,7 @@ main .time-choice .time-button {
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.15);
 }
 
-main .time-choice .time-button.active {
+main .time-choice .time-button.active{
     background-color: var(--buttonhover);
 }
 

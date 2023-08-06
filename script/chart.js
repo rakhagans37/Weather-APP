@@ -116,7 +116,7 @@ export function printChartHourly(latitude, longitude) {
         document.getElementById("day").textContent = data[0][0][0][1];
         document.getElementById("night").textContent = data[0][1][0][1];
 
-        chart.updateSeries([
+        chartHourly.updateSeries([
             {
                 name: "Feels Like",
                 data: data[0][1],
@@ -131,6 +131,175 @@ export function printChartHourly(latitude, longitude) {
 
 // Making Chart
 let options = {
+    tooltip: {
+        x: {
+            show: false,
+        },
+        style: {
+            fontSize: 14,
+            fontFamily: "Poppins",
+        },
+        onDatasetHover: {
+            highlightDataSeries: true,
+        },
+    },
+    animations: {
+        enabled: true,
+        easing: "linear",
+        speed: 800,
+        animateGradually: {
+            enabled: true,
+            delay: 350,
+        },
+        dynamicAnimation: {
+            enabled: true,
+            speed: 350,
+        },
+    },
+    noData: {
+        text: "Loading...",
+    },
+    chart: {
+        toolbar: {
+            show: false,
+        },
+        type: "area",
+        height: 180,
+        foreColor: "#000",
+        dropShadow: {
+            enabled: false,
+            enabledSeries: [0],
+            top: -2,
+            left: 2,
+            blur: 0,
+            opacity: 0.06,
+        },
+    },
+    colors: ["rgba(203, 151, 0, 1)", "#1D5D9B"],
+    stroke: {
+        curve: "smooth",
+        width: 3.5,
+    },
+    dataLabels: {
+        enabled: false,
+    },
+    series: [],
+    markers: {
+        size: 0,
+        strokeColor: "#FFF",
+        strokeWidth: 2,
+        strokeOpacity: 1,
+        fillOpacity: 1,
+        colors: ["rgba(203, 151, 0, 1)", "#1D5D9B"],
+        hover: {
+            size: 6,
+        },
+    },
+
+    xaxis: {
+        type: "category",
+        axisBorder: {
+            show: true,
+        },
+        axisTicks: {
+            show: true,
+        },
+        lines: {
+            show: true,
+        },
+        labels: {
+            show: true,
+            rotate: -45,
+            rotateAlways: false,
+            hideOverlappingLabels: true,
+            showDuplicates: false,
+            trim: false,
+            minHeight: undefined,
+            maxHeight: 120,
+            style: {
+                colors: [],
+                fontSize: "15px",
+                fontFamily: "Poppins",
+                fontWeight: 500,
+                cssClass: "apexcharts-xaxis-label",
+            },
+        },
+        axisBorder: {
+            show: true,
+            color: "#78909C",
+            height: 1,
+            width: "100%",
+            offsetX: 0,
+            offsetY: 0,
+        },
+        axisTicks: {
+            show: true,
+            borderType: "solid",
+            color: "#78909C",
+            height: 2,
+            offsetX: 0,
+            offsetY: 0,
+        },
+        crosshairs: {
+            show: true,
+            width: 1,
+            position: "back",
+            opacity: 1,
+            stroke: {
+                color: "#000",
+                width: 2,
+                dashArray: 5,
+            },
+            fill: {
+                type: "solid",
+                color: "#000",
+            },
+        },
+        tooltip: {
+            enabled: true,
+            offsetY: 0,
+            style: {
+                fontSize: "13px",
+                fontFamily: "Poppins",
+                fontWeight: "300",
+            },
+        },
+    },
+    yaxis: {
+        tickAmount: 3,
+        labels: {
+            show: true,
+            align: "right",
+            style: {
+                colors: [],
+                fontSize: "14px",
+                fontFamily: "Poppins",
+                fontWeight: 400,
+                cssClass: "apexcharts-yaxis-label",
+            },
+            offsetX: 0,
+            offsetY: 4,
+            rotate: 0,
+        },
+    },
+    grid: {
+        borderColor: "rgba(0, 0, 0, 0.13)",
+
+        padding: {
+            left: 23,
+            right: 23,
+        },
+    },
+
+    fill: {
+        type: "solid",
+        opacity: 0.3,
+        colors: ["rgba(252, 211, 92, 0.5)", "rgba(117, 194, 246, 0.6)"],
+    },
+};
+
+// Making Chart
+let optionsHourly = {
     tooltip: {
         x: {
             show: false,
@@ -304,7 +473,9 @@ let options = {
 };
 
 var chart = new ApexCharts(document.querySelector("#timeline-chart"), options);
-
+var chartHourly = new ApexCharts(
+    document.querySelector("#hourly-chart"),
+    optionsHourly
+);
 chart.render();
-
-getHourlyDetails(-0.8635, 100.3464);
+chartHourly.render();
