@@ -472,9 +472,12 @@ let optionsHourly = {
     },
 };
 
-var chart = new ApexCharts(document.querySelector("#timeline-chart"), options);
+var chart = new ApexCharts(
+    document.querySelector("#daily-timeline-chart"),
+    options
+);
 var chartHourly = new ApexCharts(
-    document.querySelector("#hourly-chart"),
+    document.querySelector("#hourly-timeline-chart"),
     optionsHourly
 );
 chart.render();

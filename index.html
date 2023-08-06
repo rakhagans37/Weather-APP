@@ -181,14 +181,22 @@
                 </div>
             </div>
 
-            <div class="daily">
+            <div class="daily" id="daily-chart">
                 <div class="title">
                     <img src="image/Hourly.png" alt="">
                     <h2>Day Forecast</h2>
                 </div>
                 <div class="chart" id="chart">
-                    <div id="timeline-chart"></div>
-                    <div id="hourly-chart" style="display: none;"></div>
+                    <div id="daily-timeline-chart"></div>
+                </div>
+            </div>
+            <div class="daily" id="hourly-chart" style="display: none;">
+                <div class="title">
+                    <img src="image/Hourly.png" alt="">
+                    <h2>Day Forecast</h2>
+                </div>
+                <div class="chart" id="chart">
+                    <div id="hourly-timeline-chart"></div>
                 </div>
             </div>
             
@@ -207,18 +215,19 @@
         
     </section>
     <script>
-        function chooseDaily() {
+    function chooseDaily() {
         document.getElementById("daily-timestamp").classList.add("active");
-        document.getElementById("timeline-chart").style.display = "block";
+        document.getElementById("daily-chart").style.display = "block";
         document.getElementById("hourly-timestamp").classList.remove("active");
         document.getElementById("hourly-chart").style.display = "none";
     }
 
     function chooseHourly() {
         document.getElementById("hourly-timestamp").classList.add("active");
-        document.getElementById("timeline-chart").style.display = "none";
-        document.getElementById("daily-timestamp").classList.remove("active");
         document.getElementById("hourly-chart").style.display = "block";
+        document.getElementById("daily-timestamp").classList.remove("active");
+        document.getElementById("daily-chart").style.display = "none";
+        
     }
     </script>
     <script type="module" src="script/script.js"></script>
