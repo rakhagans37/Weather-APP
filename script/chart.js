@@ -60,14 +60,22 @@ export async function getHourlyDetails(latitude, longitude) {
 
     for (let i = 0; i < 96; i++) {
         let temporaryArray = [];
-        temporaryArray.push(response.list[i].dt * 1000);
+        temporaryArray.push(
+            response.list[i].dt * 1000 +
+                new Date().getTimezoneOffset() * 60000 +
+                response.city.timezone * 1000
+        );
         temporaryArray.push(response.list[i].main.temp);
 
         value[0].push(temporaryArray);
     }
     for (let i = 0; i < 96; i++) {
         let temporaryArray = [];
-        temporaryArray.push(response.list[i].dt * 1000);
+        temporaryArray.push(
+            response.list[i].dt * 1000 +
+                new Date().getTimezoneOffset() * 60000 +
+                response.city.timezone * 1000
+        );
         temporaryArray.push(response.list[i].main.feels_like);
 
         value[1].push(temporaryArray);

@@ -487,21 +487,31 @@ function printData(response) {
             const createH3 = document.createElement("h3");
             const createP = document.createElement("p");
             const createPGap = document.createElement("p");
-
+            const timeNow = new Date(
+                new Date().getTime() +
+                    new Date().getTimezoneOffset() * 60000 +
+                    response.timezone * 1000
+            );
+            const sunrise = new Date(
+                response.sys.sunrise * 1000 +
+                    new Date().getTimezoneOffset() * 60000 +
+                    response.timezone * 1000
+            );
+            const sunset = new Date(
+                response.sys.sunset * 1000 +
+                    new Date().getTimezoneOffset() * 60000 +
+                    response.timezone * 1000
+            );
             createDiv.className = "circum-value";
             createDivTarget.className = "card";
             createP.textContent =
                 i === 1
-                    ? new Date(
-                          Number(response.sys.sunrise + "000")
-                      ).toLocaleString("en-US", {
+                    ? sunrise.toLocaleString("en-US", {
                           hour: "numeric",
                           minute: "2-digit",
                           hour12: true,
                       })
-                    : new Date(
-                          Number(response.sys.sunset + "000")
-                      ).toLocaleString("en-US", {
+                    : sunset.toLocaleString("en-US", {
                           hour: "numeric",
                           minute: "2-digit",
                           hour12: true,
@@ -510,12 +520,8 @@ function printData(response) {
             createImg.alt = i === 1 ? "image/Sunrise.png" : "image/Sunset.png";
             createH3.textContent = i === 1 ? "Sunrise" : "Sunset";
 
-            const timeToSunrise =
-                new Date().getHours() -
-                new Date(Number(response.sys.sunrise + "000")).getHours();
-            const timeToSunset =
-                new Date().getHours() -
-                new Date(Number(response.sys.sunset + "000")).getHours();
+            const timeToSunrise = timeNow.getHours() - sunrise.getHours();
+            const timeToSunset = timeNow.getHours() - sunset.getHours();
 
             createPGap.textContent =
                 i === 1
